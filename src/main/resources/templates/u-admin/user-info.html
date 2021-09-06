@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+	<title>云翼网盘-修改资料</title>
+
+	<link rel="stylesheet" href="u-admin/dist/modules/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/ionicons/css/ionicons.min.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+	<link rel="stylesheet" href="u-admin/dist/modules/summernote/summernote-lite.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/flag-icon-css/css/flag-icon.min.css">
+	<link rel="stylesheet" href="u-admin/dist/css/demo.css">
+	<link rel="stylesheet" href="u-admin/dist/css/style.css">
+	<link rel="stylesheet" href="css/common.css"/>
+	<style>
+		.text{
+			margin-left: 1em;
+			font-size: 16px;
+			font-weight: 300
+		}
+	</style>
+</head>
+
+<body>
+<div id="app">
+	<div class="main-wrapper">
+		<div class="navbar-bg"></div>
+		<div th:replace="commons/bar::#top"></div>
+		<div th:replace="commons/bar::#sidebar(currUri='help',statistics = ${statistics})"></div>
+
+		<div class="main-content">
+			<section class="section">
+				<h1 class="section-header">
+					<div><i class="ion ion-android-settings"></i> 修改资料</div>
+				</h1>
+				<div class="row">
+					<div class="col-12 ">
+						<div class="card">
+							<div class="row">
+								<div class="col-4"></div>
+								<div class="card-body box col-4">
+									<ul class="list-unstyled list-unstyled-border">
+										<li class="media">
+											<img class="mr-3 rounded-circle" style="width: 50px;height: 50px" th:src="${session.loginUser.imagePath}"  alt="avatar">
+
+											<form style="margin-top: 20px" id="imageForm" action="image-upload" method="post" enctype="multipart/form-data">
+												<input type="file" onchange="updateImage()" name="file" accept=".jpeg, .png, .jpg">
+											</form>
+
+										</li>
+										<li class="media">
+											<div class="media-body">
+												<div class="media-title">
+													<a style="color: red" href="javascript:;" class="bounceIn">修改密码</a><br><span id="imgUploadInfo"></span>
+												</div>
+											</div>
+										</li>
+										<li>
+											<form action="name-update" method="post" id="nameForm">
+												<i class="icon ion-android-happy"></i> 昵称：<input style="border: 1px black solid" onchange="checkName()" name="newName" id="name" class="text" th:value="${session.loginUser.userName}"/>
+											</form>
+										</li>
+										<li style="margin-top: -15px">
+											<i class="icon ion-email"></i> 邮箱：<span class="text"> [[${session.loginUser.email}]]</span>
+										</li>
+										<li style="margin-top: -15px">
+											<i class="icon ion-person"></i> 角色：
+											<span class="text" th:if="${session.loginUser.role == 0}"> 系统管理员</span>
+											<span class="text" th:if="${session.loginUser.role == 1}"> 普通用户</span>
+										</li>
+										<li style="margin-top: -15px">
+											<i class="icon ion-clock"></i> 注册时间：<span class="text"> [[${#dates.format(session.loginUser.registerTime,'yyyy-MM-dd HH:mm')}]]</span>
+										</li>
+
+									</ul>
+								</div>
+								<div class="col-4"></div>
+							</div>
+						</div>
+					</div>
+
+					<div id="dialogBg"></div>
+					<div id="dialog" class="animated">
+						<div class="dialogTop">
+							<a href="javascript:;" class="claseDialogBtn">关闭</a>
+						</div>
+						<form action="pwd-update" method="post" id="editForm">
+							<ul class="editInfos" id="input-ul">
+								<li><label><font color='#ff0000'>* </font>原密码：<input id='old_pwd' type='password' name='oldPwd' required='required' class='ipt' /></label></li>
+								<li><label><font color='#ff0000'>* </font>新密码：<input id='new_pwd' type='password' name='newPwd' required='required' class='ipt' /></label></li>
+								<li><label><font color='#ff0000'>* </font>新密码：<input id='new_repeat' type='password' name='' required='required' class='ipt' /></label></li>
+								<li><input type='button' onclick='checkPassword()' value='确认提交' class='submitBtn' /></li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div th:replace="commons/bar::#footer"></div>
+	</div>
+</div>
+<script src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	var w,h,className;
+	function getSrceenWH(){
+		w = $(window).width();
+		h = $(window).height();
+		$('#dialogBg').width(w).height(h);
+	}
+
+	window.onresize = function(){
+		getSrceenWH();
+	}
+	$(window).resize();
+
+	$(function(){
+		getSrceenWH();
+
+		//显示弹框
+		$('.box a').click(function(){
+			className = $(this).attr('class');
+			$('#dialogBg').fadeIn(300);
+			$('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+		});
+
+		//关闭弹窗
+		$('.claseDialogBtn').click(function(){
+			$('#dialogBg').fadeOut(300,function(){
+				$('#dialog').addClass('bounceOutUp').fadeOut();
+			});
+		});
+	});
+	function updateImage() {
+		$('#imageForm').submit();
+	}
+	function checkName() {
+		var name = $('#name').val().trim();
+		if (name === ''){
+			alert("请输入用户名！");
+			return false;
+		}
+		$('#nameForm').submit();
+	}
+	function checkPassword() {
+		var old_pwd = $('#old_pwd').val().trim();
+		var new1 = $('#new_pwd').val().trim();
+		var new2 = $('#new_repeat').val().trim();
+
+		if (old_pwd === ''){
+			alert("请输入原始密码！");
+			return false;
+		}
+		if (old_pwd == new1){
+			alert("原密码不可以与新密码一致！");
+			return false;
+		}
+		if (new1 === ''||new2===''||new1!=new2){
+			alert("两次密码输入的不一致！");
+			return false;
+		}
+		alert("修改密码成功！");
+		$('#editForm').submit();
+	}
+</script>
+<script src="u-admin/dist/modules/jquery.min.js"></script>
+<script src="u-admin/dist/modules/popper.js"></script>
+<script src="u-admin/dist/modules/tooltip.js"></script>
+<script src="u-admin/dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="u-admin/dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="u-admin/dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="u-admin/dist/js/sa-functions.js"></script>
+<script src="u-admin/dist/modules/chart.min.js"></script>
+<script src="u-admin/dist/modules/summernote/summernote-lite.js"></script>
+<script src="u-admin/dist/js/scripts.js"></script>
+<script src="u-admin/dist/js/custom.js"></script>
+<!--<script src="u-admin/dist/js/demo.js"></script>-->
+<script src="u-admin/dist/modules/chart.min.js"></script>
+<script src="js/userInfo.js"></script>
+<script src="js/fileUpload.js"></script>
+</body>
+</html>

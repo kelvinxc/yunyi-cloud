@@ -1,0 +1,16 @@
+2021-09-06 18:54:06.202  INFO 48524 --- [main] com.yunyi.YunyiCloudApplication          : Starting YunyiCloudApplication on LAPTOP-HB8H7BDO with PID 48524 (E:\Program File\Project\yunyi-cloud\target\classes started by 时年 in E:\Program File\Project\yunyi-cloud)
+2021-09-06 18:54:06.209  INFO 48524 --- [main] com.yunyi.YunyiCloudApplication          : No active profile set, falling back to default profiles: default
+2021-09-06 18:54:07.201  INFO 48524 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2021-09-06 18:54:07.209  INFO 48524 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-06 18:54:07.209  INFO 48524 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2021-09-06 18:54:07.284  INFO 48524 --- [main] o.a.c.c.C.[.[localhost].[/yunyi-cloud]   : Initializing Spring embedded WebApplicationContext
+2021-09-06 18:54:07.285  INFO 48524 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1037 ms
+2021-09-06 18:54:07.857  INFO 48524 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-09-06 18:54:07.913  INFO 48524 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-09-06 18:54:08.054  INFO 48524 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path '/yunyi-cloud'
+2021-09-06 18:54:08.057  INFO 48524 --- [main] com.yunyi.YunyiCloudApplication          : Started YunyiCloudApplication in 2.304 seconds (JVM running for 3.183)
+2021-09-06 18:54:17.235  INFO 48524 --- [http-nio-8090-exec-2] o.a.c.c.C.[.[localhost].[/yunyi-cloud]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-06 18:54:17.235  INFO 48524 --- [http-nio-8090-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-09-06 18:54:17.240  INFO 48524 --- [http-nio-8090-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2021-09-06 18:54:31.098  INFO 48524 --- [http-nio-8090-exec-8] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-09-06 18:54:31.442  INFO 48524 --- [http-nio-8090-exec-8] com.yunyi.controller.LoginController     : 登录成功！User(userId=1, openId=null, fileStoreId=1, userName=use, email=2363183105@qq.com, password=abc123, registerTime=Fri Sep 03 16:59:11 CST 2021, imagePath=https://yiyi-cloud.oss-cn-beijing.aliyuncs.com/yi-cloud/avatar.jpg, role=1)

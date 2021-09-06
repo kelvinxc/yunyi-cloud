@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+	<title>云翼网盘-文件预览</title>
+
+	<link rel="stylesheet" href="u-admin/dist/modules/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/ionicons/css/ionicons.min.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+	<link rel="stylesheet" href="u-admin/dist/modules/summernote/summernote-lite.css">
+	<link rel="stylesheet" href="u-admin/dist/modules/flag-icon-css/css/flag-icon.min.css">
+	<link rel="stylesheet" href="u-admin/dist/css/demo.css">
+	<link rel="stylesheet" href="u-admin/dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+	<div class="main-wrapper">
+		<div class="navbar-bg"></div>
+		<div th:replace="commons/bar::#top"></div>
+		<div th:replace="commons/bar::#sidebar(currUri='help',statistics = ${statistics})"></div>
+
+		<div class="main-content">
+			<section class="section">
+				<h1 class="section-header">
+					<div><i class="ion ion-eye"></i> 文件预览</div>
+				</h1>
+				<div class="row" th:if="${file.type == 3}">
+					<div class="col-12 col-sm-12 col-lg-12" style="overflow-x: auto">
+						<video controls width="100%" autoplay>
+							<source th:src="${file.getMyFilePath()}"></source>
+						</video>
+					</div>
+				</div>
+				<div class="row" th:if="${file.type == 4}">
+					<div class="col-12 col-sm-12 col-lg-12" style="overflow-x: auto">
+						<audio controls="controls" width="100%" autoplay>
+							<source th:src="${file.getMyFilePath()}"></source>
+						</audio>
+					</div>
+				</div>
+				<div class="row" th:if="${file.type == 2}">
+					<div class="col-10 col-sm-10 col-lg-10 offset-1" style="overflow-x: auto">
+						<img width="100%" th:src="${file.getMyFilePath()}" alt="">
+					</div>
+				</div>
+			</section>
+		</div>
+		<div th:replace="commons/bar::#footer"></div>
+	</div>
+</div>
+<script src="u-admin/dist/modules/jquery.min.js"></script>
+<script src="u-admin/dist/modules/popper.js"></script>
+<script src="u-admin/dist/modules/tooltip.js"></script>
+<script src="u-admin/dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="u-admin/dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="u-admin/dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="u-admin/dist/js/sa-functions.js"></script>
+<script src="u-admin/dist/modules/chart.min.js"></script>
+<script src="u-admin/dist/modules/summernote/summernote-lite.js"></script>
+<script src="u-admin/dist/js/scripts.js"></script>
+<script src="u-admin/dist/js/custom.js"></script>
+<!--<script src="u-admin/dist/js/demo.js"></script>-->
+<script src="u-admin/dist/modules/chart.min.js"></script>
+<script src="js/userInfo.js"></script>
+<script src="js/fileUpload.js"></script>
+</body>
+</html>

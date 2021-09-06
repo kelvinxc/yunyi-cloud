@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunyi.mapper.TempFileMapper">
+
+    <!--TempFile的映射结果集-->
+    <resultMap type="com.yunyi.entity.TempFile" id="TempFileMap">
+        <result property="fileId" column="file_id" jdbcType="INTEGER"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="size" column="size" jdbcType="INTEGER"/>
+        <result property="uploadTime" column="upload_time" jdbcType="TIMESTAMP"/>
+        <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--向数据库添加一个临时文件：动态SQL，只添加对象中不为空的属性-->
+    <insert id="insert" keyProperty="fileId" useGeneratedKeys="true">
+        insert into temp_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">
+                file_name,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="uploadTime != null">
+                upload_time,
+            </if>
+            <if test="filePath != null and filePath != ''">
+                file_path,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">
+                #{fileName},
+            </if>
+            <if test="size != null">
+                #{size},
+            </if>
+            <if test="uploadTime != null">
+                #{uploadTime},
+            </if>
+            <if test="filePath != null and filePath != ''">
+                #{filePath},
+            </if>
+        </trim>
+    </insert>
+
+    <!--删除temp_file:通过主键-->
+    <delete id="deleteById">
+        delete from temp_file
+        where file_id = #{fileId}
+    </delete>
+
+    <!--查询单个temp_file-->
+    <select id="queryById" resultMap="TempFileMap">
+        select
+        file_id, file_name, size, upload_time, file_path
+        from temp_file
+        where file_id = #{fileId}
+    </select>
+
+    <!--查询所有temp_file-->
+    <select id="queryAllByLimit" resultMap="TempFileMap">
+        select
+        file_id, file_name, size, upload_time, file_path
+        from temp_file
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TempFileMap">
+        select
+        file_id, file_name, size, upload_time, file_path
+        from temp_file
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="uploadTime != null">
+                upload_time = #{uploadTime},
+            </if>
+            <if test="filePath != null and filePath != ''">
+                file_path = #{filePath},
+            </if>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update temp_file
+        <set>
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="uploadTime != null">
+                upload_time = #{uploadTime},
+            </if>
+            <if test="filePath != null and filePath != ''">
+                file_path = #{filePath},
+            </if>
+        </set>
+        where file_id = #{fileId}
+    </update>
+
+</mapper>
